@@ -37,23 +37,30 @@
 </style>
 </head>
 <body>
-<!-- De audio-tag heeft een id gekregen zodat JavaScript hem kan vinden -->
-<audio id="achtergrondMuziek" loop>
+<!-- The Audio Player -->
+<audio id="bgMusic" loop>
   <source src="images/music.mp3" type="audio/mpeg">
 </audio>
 
+<!-- The Toggle Button -->
+<button id="musicBtn" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">
+  🎵 Play Music
+</button>
+
+<!-- The Script -->
 <script>
-  // Wacht tot de gebruiker ergens op de pagina klikt
-  document.addEventListener('click', function() {
-    var audio = document.getElementById('achtergrondMuziek');
-    
-    // Controleer of de muziek al speelt, zo niet: afspelen
+  const audio = document.getElementById('bgMusic');
+  const btn = document.getElementById('musicBtn');
+
+  btn.addEventListener('click', function() {
     if (audio.paused) {
-      audio.play().catch(function(error) {
-        console.log("Audio afspelen mislukt:", error);
-      });
+      audio.play();
+      btn.innerHTML = "⏸️ Pause Music";
+    } else {
+      audio.pause();
+      btn.innerHTML = "🎵 Play Music";
     }
-  }, { once: true }); // '{ once: true }' zorgt ervoor dat dit script maar één keer activeert bij de eerste klik
+  });
 </script>
 <main class="page">
   <header>
