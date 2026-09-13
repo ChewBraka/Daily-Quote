@@ -37,9 +37,24 @@
 </style>
 </head>
 <body>
-<audio autoplay loop>
+<!-- De audio-tag heeft een id gekregen zodat JavaScript hem kan vinden -->
+<audio id="achtergrondMuziek" loop>
   <source src="images/music.mp3" type="audio/mpeg">
 </audio>
+
+<script>
+  // Wacht tot de gebruiker ergens op de pagina klikt
+  document.addEventListener('click', function() {
+    var audio = document.getElementById('achtergrondMuziek');
+    
+    // Controleer of de muziek al speelt, zo niet: afspelen
+    if (audio.paused) {
+      audio.play().catch(function(error) {
+        console.log("Audio afspelen mislukt:", error);
+      });
+    }
+  }, { once: true }); // '{ once: true }' zorgt ervoor dat dit script maar één keer activeert bij de eerste klik
+</script>
 <main class="page">
   <header>
     <div>
