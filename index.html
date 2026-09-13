@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b0b0f">
-<title>Daily Photo</title>
+<title>Daily Quote</title>
 <style>
   :root { color-scheme: dark; }
   * { box-sizing: border-box; }
@@ -51,7 +51,7 @@
 
   <section class="card" aria-live="polite">
     <div class="loading" id="loading">Loading…</div>
-    <img id="photo" alt="Today's daily photo" hidden>
+    <img id="photo" alt="Today's daily quote" hidden>
   </section>
 
   <div class="controls">
@@ -131,11 +131,11 @@ function showImage(index, isDaily) {
   loading.hidden = true;
   photo.hidden = false;
   photo.src = fileUrl(index);
-  photo.alt = isDaily ? "Today's daily photo" : "Random photo";
-  counter.textContent = isDaily ? "Today's photo" : "Random photo";
+  photo.alt = isDaily ? "Today's daily quote" : "Random quote";
+  counter.textContent = isDaily ? "Today's quote" : "Random quote";
   info.innerHTML = isDaily
     ? `Photo <b>${pad(index)}</b> of ${IMAGE_COUNT}`
-    : `Photo <b>${pad(index)}</b> of ${IMAGE_COUNT} · click “Today's photo” to return`;
+    : `Photo <b>${pad(index)}</b> of ${IMAGE_COUNT} · click “Today's quote” to return`;
 }
 
 function showDaily() {
