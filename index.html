@@ -38,6 +38,53 @@
 </style>
 </head>
 <body>
+  <!-- The Audio Player -->
+<audio id="bgMusic" loop>
+  <source src="images/music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- The Floating Toggle Button -->
+<button id="musicBtn" style="
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-family: sans-serif;
+  font-weight: bold;
+  background-color: #222222;
+  color: #ffffff;
+  border: none;
+  border-radius: 50px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+">
+  🎵 Play Music
+</button>
+
+<!-- The Script -->
+<script>
+  const audio = document.getElementById('bgMusic');
+  const btn = document.getElementById('musicBtn');
+
+  // Add a subtle hover effect via JavaScript to keep it self-contained
+  btn.addEventListener('mouseenter', () => btn.style.transform = 'scale(1.05)');
+  btn.addEventListener('mouseleave', () => btn.style.transform = 'scale(1)');
+
+  btn.addEventListener('click', function() {
+    if (audio.paused) {
+      audio.play();
+      btn.innerHTML = "⏸️ Pause Music";
+      btn.style.backgroundColor = "#ff4757"; // Changes color when playing
+    } else {
+      audio.pause();
+      btn.innerHTML = "🎵 Play Music";
+      btn.style.backgroundColor = "#222222"; // Resets color when paused
+    }
+  });
+</script>
 <main class="page">
   <header>
     <div>
