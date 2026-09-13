@@ -37,31 +37,6 @@
 </style>
 </head>
 <body>
-<!-- The Audio Player -->
-<audio id="bgMusic" loop>
-  <source src="images/music.mp3" type="audio/mpeg">
-</audio>
-
-<!-- The Toggle Button -->
-<button id="musicBtn" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">
-  🎵 Play Music
-</button>
-
-<!-- The Script -->
-<script>
-  const audio = document.getElementById('bgMusic');
-  const btn = document.getElementById('musicBtn');
-
-  btn.addEventListener('click', function() {
-    if (audio.paused) {
-      audio.play();
-      btn.innerHTML = "⏸️ Pause Music";
-    } else {
-      audio.pause();
-      btn.innerHTML = "🎵 Play Music";
-    }
-  });
-</script>
 <main class="page">
   <header>
     <div>
