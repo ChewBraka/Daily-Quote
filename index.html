@@ -484,12 +484,12 @@ function showImage(index, isDaily) {
   photo.src = fileUrl(index);
 
   photo.alt = isDaily
-    ? "Today's daily photo"
-    : "Random photo";
+    ? "Today's daily quote"
+    : "Random quote";
 
   counter.textContent = isDaily
-    ? "Today's photo"
-    : "Random photo";
+    ? "Today's quote"
+    : "Random quote";
 
   info.innerHTML = isDaily
     ? `Photo <b>${pad(index)}</b> of ${IMAGE_COUNT}`
