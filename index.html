@@ -499,6 +499,7 @@ function showImage(index, isDaily) {
   card.classList.add("lighthouse-reveal");
   photo.classList.add("lighthouse-photo-reveal");
 }
+// 1. Jouw originele functie (voor de afbeelding en de eerste keer laden)
 function showDaily() {
   const now = new Date();
   const order = makeOrder(now.getFullYear());
@@ -506,16 +507,26 @@ function showDaily() {
   const position = day % IMAGE_COUNT;
   showImage(order[position], true);
 
-  dateText.textContent = now.toLocaleString(undefined, {
-  weekday: "long", 
-  year: "numeric", 
-  month: "long", 
-  day: "numeric",
-  hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit" // Voegt de seconden toe (bijv. "08")
-});
+  // Update de klok direct bij het laden van de pagina
+  updateKlok();
 }
+
+// 2. De nieuwe, aparte functie voor de klok
+function updateKlok() {
+  const now = new Date();
+  dateText.textContent = now.toLocaleString(undefined, {
+    weekday: "long", 
+    year: "numeric", 
+    month: "long", 
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  });
+}
+
+// 3. Zorg dat de klok elke seconde live tikt
+setInterval(updateKlok, 1000);
 
 function showRandom() {
   let index;
