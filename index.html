@@ -506,9 +506,15 @@ function showDaily() {
   const position = day % IMAGE_COUNT;
   showImage(order[position], true);
 
-  dateText.textContent = now.toLocaleDateString(undefined, {
-    weekday:"long", year:"numeric", month:"long", day:"numeric"
-  });
+  dateText.textContent = now.toLocaleString(undefined, {
+  weekday: "long", 
+  year: "numeric", 
+  month: "long", 
+  day: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit" // Voegt de seconden toe (bijv. "08")
+});
 }
 
 function showRandom() {
