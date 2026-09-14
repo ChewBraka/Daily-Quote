@@ -7,92 +7,236 @@
 <title>Daily Quote</title>
 <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
 <style>
-/* Lighthouse reveal */
+/* =========================================
+   LIGHTHOUSE PHOTO REVEAL
+   ========================================= */
+
 .card {
   position: relative;
   overflow: hidden;
+  isolation: isolate;
+  background: #05070b;
 }
 
+/* Keep the actual image slightly dark during the reveal */
 #photo {
+  position: relative;
+  z-index: 1;
   display: block;
   max-width: 100%;
   max-height: 72vh;
   width: auto;
   height: auto;
   object-fit: contain;
+
+  filter: brightness(0.18);
+  transform: scale(1.035);
 }
 
-/* Dark cover over the image */
-.card::after {
+/* Dark atmosphere covering the photo */
+.card.lighthouse-reveal::before {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 2;
   pointer-events: none;
-  background: linear-gradient(
-    105deg,
-    transparent 25%,
-    rgba(255, 255, 255, 0.05) 38%,
-    rgba(255, 255, 255, 0.8) 48%,
-    rgba(255, 255, 255, 0.18) 55%,
-    transparent 68%
-  );
-  transform: translateX(-120%);
-  opacity: 0;
+
+  background: rgba(0, 0, 0, 0.48);
+
+  animation: darknessFade 2.4s ease-out forwards;
 }
 
-/* Activate lighthouse beam */
-.card.lighthouse-reveal::after {
-  opacity: 1;
-  animation: lighthouseBeam 1.6s cubic-bezier(.2,.7,.2,1) forwards;
-}
-
-@keyframes lighthouseBeam {
+@keyframes darknessFade {
   0% {
-    transform: translateX(-120%);
+    opacity: 1;
+  }
+
+  65% {
+    opacity: 0.45;
   }
 
   100% {
-    transform: translateX(120%);
-  }
-}
-
-/* Photo starts hidden */
-#photo.lighthouse-photo {
-  opacity: 0;
-  transform: scale(1.03);
-}
-
-/* Photo appears as beam passes */
-#photo.lighthouse-photo-reveal {
-  animation: lighthousePhoto 1.6s ease-out forwards;
-}
-
-@keyframes lighthousePhoto {
-  0% {
     opacity: 0;
-    transform: scale(1.03);
-    filter: brightness(0.15);
+  }
+}
+
+
+/* =========================================
+   THE LIGHTHOUSE BEAM
+   ========================================= */
+
+.card.lighthouse-reveal::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+
+  /*
+     The beam starts outside the left side
+     and points toward the centre.
+  */
+  top: -55%;
+  left: -65%;
+
+  width: 180%;
+  height: 210%;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0) 0%,
+      rgba(255,248,220,0.02) 32%,
+      rgba(255,248,220,0.12) 44%,
+      rgba(255,255,235,0.75) 49%,
+      rgba(255,248,220,0.20) 54%,
+      rgba(255,255,255,0) 65%
+    );
+
+  filter: blur(3px);
+
+  transform-origin: left center;
+
+  animation:
+    lighthouseSweep 2.4s cubic-bezier(.15,.65,.25,1) forwards;
+}
+
+
+/* Main sweeping movement */
+@keyframes lighthouseSweep {
+
+  0% {
+    transform:
+      translateX(-45%)
+      rotate(-8deg);
+    opacity: 0;
   }
 
-  30% {
-    opacity: 0.3;
-    filter: brightness(0.5);
+  10% {
+    opacity: 1;
   }
 
-  55% {
-    opacity: 0.8;
-    filter: brightness(1.25);
+  45% {
+    transform:
+      translateX(10%)
+      rotate(-1deg);
+    opacity: 1;
   }
 
   75% {
-    opacity: 1;
-    filter: brightness(1.05);
+    transform:
+      translateX(65%)
+      rotate(5deg);
+    opacity: 0.85;
   }
 
   100% {
-    opacity: 1;
+    transform:
+      translateX(125%)
+      rotate(10deg);
+    opacity: 0;
+  }
+}
+
+
+/* =========================================
+   PHOTO REVEAL
+   ========================================= */
+
+#photo.lighthouse-photo-reveal {
+  animation: photoReveal 2.4s ease-out forwards;
+}
+
+@keyframes photoReveal {
+
+  0% {
+    filter:
+      brightness(0.12)
+      saturate(0.6);
+
+    transform: scale(1.035);
+  }
+
+  30% {
+    filter:
+      brightness(0.28)
+      saturate(0.75);
+
+    transform: scale(1.025);
+  }
+
+  55% {
+    filter:
+      brightness(0.85)
+      saturate(0.95);
+
+    transform: scale(1.015);
+  }
+
+  75% {
+    filter:
+      brightness(1.15)
+      saturate(1.05);
+
+    transform: scale(1.005);
+  }
+
+  100% {
+    filter:
+      brightness(1)
+      saturate(1);
+
     transform: scale(1);
-    filter: brightness(1);
+  }
+}
+
+
+/* =========================================
+   LITTLE LIGHT FLASH
+   ========================================= */
+
+.card.lighthouse-reveal {
+  animation: cardGlow 2.4s ease-out;
+}
+
+@keyframes cardGlow {
+
+  0% {
+    box-shadow:
+      0 20px 70px rgba(0,0,0,0.5);
+  }
+
+  45% {
+    box-shadow:
+      0 20px 70px rgba(0,0,0,0.5),
+      0 0 45px rgba(255,245,210,0.12);
+  }
+
+  70% {
+    box-shadow:
+      0 20px 70px rgba(0,0,0,0.5),
+      0 0 70px rgba(255,245,210,0.08);
+  }
+
+  100% {
+    box-shadow:
+      0 20px 70px rgba(0,0,0,0.5);
+  }
+}
+
+
+/* Respect reduced-motion settings */
+@media (prefers-reduced-motion: reduce) {
+
+  #photo.lighthouse-photo-reveal,
+  .card.lighthouse-reveal::before,
+  .card.lighthouse-reveal::after,
+  .card.lighthouse-reveal {
+    animation: none;
+  }
+
+  #photo {
+    filter: none;
+    transform: none;
   }
 }
   
@@ -327,34 +471,34 @@ function showImage(index, isDaily) {
   loading.hidden = true;
   photo.hidden = false;
 
-  // Reset animation
+  const card = document.querySelector(".card");
+
+  // Reset everything
+  card.classList.remove("lighthouse-reveal");
   photo.classList.remove("lighthouse-photo-reveal");
-  photo.classList.add("lighthouse-photo");
 
-  // Restart animation
-  void photo.offsetWidth;
+  // Force browser to restart the animation
+  void card.offsetWidth;
 
+  // Set the new image
   photo.src = fileUrl(index);
 
-  photo.alt = isDaily ? "Today's daily photo" : "Random photo";
+  photo.alt = isDaily
+    ? "Today's daily photo"
+    : "Random photo";
 
-  counter.textContent = isDaily ? "Today's photo" : "Random photo";
+  counter.textContent = isDaily
+    ? "Today's photo"
+    : "Random photo";
 
   info.innerHTML = isDaily
     ? `Photo <b>${pad(index)}</b> of ${IMAGE_COUNT}`
-    : `Photo <b>${pad(index)}</b> of ${IMAGE_COUNT} · click “Today's photo” to return`;
+    : `Photo <b>${pad(index)}</b> of ${IMAGE_COUNT}`;
 
-  // Start lighthouse beam
-  const card = document.querySelector(".card");
-
-  card.classList.remove("lighthouse-reveal");
-  void card.offsetWidth;
+  // Start lighthouse reveal
   card.classList.add("lighthouse-reveal");
-
-  // Reveal the image
   photo.classList.add("lighthouse-photo-reveal");
 }
-
 function showDaily() {
   const now = new Date();
   const order = makeOrder(now.getFullYear());
