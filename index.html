@@ -333,6 +333,7 @@
     <source src="images/intro.mp4" type="video/mp4">
   </video>
 </div>
+   
 <script>
 const video = document.getElementById('startup-video');
 const overlay = document.getElementById('intro-overlay');
@@ -345,6 +346,43 @@ video.onended = () => {
 <audio id="bgMusic" loop>
   <source src="images/music.mp3" type="audio/mpeg">
 </audio>
+
+```html
+<button id="soundBtn">🔊 Play Sound</button>
+
+
+<audio id="randomSound"></audio>
+
+<script>
+  const sound = document.getElementById("randomSound");
+  const btn = document.getElementById("soundBtn");
+
+  const sounds = [
+    "images/sound1.mp3",
+    "images/sound2.mp3",
+    "images/sound3.mp3",
+    "images/sound4.mp3",
+    "images/sound5.mp3"
+  ];
+
+  btn.addEventListener("click", function() {
+
+    // Pick a random sound
+    const randomSound =
+      sounds[Math.floor(Math.random() * sounds.length)];
+
+    // Load it
+    sound.src = randomSound;
+
+    // Start from the beginning
+    sound.currentTime = 0;
+
+    // Play it
+    sound.play();
+
+  });
+</script>
+```
 
 <!-- The Floating Toggle Button -->
 <button id="musicBtn" style="
