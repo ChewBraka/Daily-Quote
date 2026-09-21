@@ -342,107 +342,217 @@ video.onended = () => {
   overlay.style.display = 'none';
 };
 </script>
-  <!-- The Audio Player -->
+
+<!-- =========================
+     AUDIO
+========================= -->
+
+<!-- Background music -->
 <audio id="bgMusic" loop>
   <source src="images/music.mp3" type="audio/mpeg">
 </audio>
 
-<button id="soundBtn">🔊 Play Sound</button>
-
-
+<!-- Random short sounds -->
 <audio id="randomSound"></audio>
 
-<script>
-  const sound = document.getElementById("randomSound");
-  const btn = document.getElementById("soundBtn");
 
-  const sounds = [
-    "images/sound1.mp3",
-    "images/sound2.mp3",
-    "images/sound3.mp3",
-    "images/sound4.mp3",
-    "images/sound5.mp3"
-  ];
+<!-- Random Sound Button -->
+<button id="soundBtn">
+  🔊 Play Sound
+</button>
 
-  btn.addEventListener("click", function() {
 
-    // Pick a random sound
-    const randomSound =
-      sounds[Math.floor(Math.random() * sounds.length)];
-
-    // Load it
-    sound.src = randomSound;
-
-    // Start from the beginning
-    sound.currentTime = 0;
-
-    // Play it
-    sound.play();
-
-  });
-</script>
-```
-
-<!-- The Floating Toggle Button -->
-<button id="musicBtn" style="
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9999;
-  padding: 12px 20px;
-  font-size: 14px;
-  font-family: sans-serif;
-  font-weight: bold;
-  background-color: #222222;
-  color: #ffffff;
-  border: none;
-  border-radius: 50px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-">
+<!-- Floating Music Toggle Button -->
+<button id="musicBtn">
   🎵 Play Music
 </button>
 
-<!-- The Script -->
+
+<style>
+
+/* =========================
+   RANDOM SOUND BUTTON
+========================= */
+
+#soundBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 170px;
+
+  z-index: 9999;
+
+  padding: 12px 20px;
+
+  font-size: 14px;
+  font-family: sans-serif;
+  font-weight: bold;
+
+  background-color: #222222;
+  color: #ffffff;
+
+  border: none;
+  border-radius: 50px;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+#soundBtn:hover {
+  transform: scale(1.05);
+  background-color: #333333;
+}
+
+
+/* =========================
+   MUSIC BUTTON
+========================= */
+
+#musicBtn {
+  position: fixed;
+
+  bottom: 20px;
+  right: 20px;
+
+  z-index: 9999;
+
+  padding: 12px 20px;
+
+  font-size: 14px;
+  font-family: sans-serif;
+  font-weight: bold;
+
+  background-color: #222222;
+  color: #ffffff;
+
+  border: none;
+  border-radius: 50px;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+#musicBtn:hover {
+  transform: scale(1.05);
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+  #soundBtn {
+    right: 20px;
+    bottom: 75px;
+  }
+
+  #musicBtn {
+    right: 20px;
+    bottom: 20px;
+  }
+
+}
+
+</style>
+
+
 <script>
-  const audio = document.getElementById('bgMusic');
-  const btn = document.getElementById('musicBtn');
 
-  // Add a subtle hover effect
-  btn.addEventListener('mouseenter', () => {
-    btn.style.transform = 'scale(1.05)';
+/* =========================
+   RANDOM SHORT SOUNDS
+========================= */
+
+const sound = document.getElementById("randomSound");
+const soundBtn = document.getElementById("soundBtn");
+
+const sounds = [
+  "images/sound1.mp3",
+  "images/sound2.mp3",
+  "images/sound3.mp3",
+  "images/sound4.mp3",
+  "images/sound5.mp3"
+];
+
+let lastSound = -1;
+
+soundBtn.addEventListener("click", function() {
+
+  // Choose a random sound
+  let index;
+
+  // Prevent the same sound twice in a row
+  do {
+    index = Math.floor(Math.random() * sounds.length);
+  } while (sounds.length > 1 && index === lastSound);
+
+  lastSound = index;
+
+  // Load the sound
+  sound.src = sounds[index];
+
+  // Start from the beginning
+  sound.currentTime = 0;
+
+  // Play
+  sound.play().catch(error => {
+    console.log("Sound could not be played:", error);
   });
 
-  btn.addEventListener('mouseleave', () => {
-    btn.style.transform = 'scale(1)';
-  });
+});
 
-  btn.addEventListener('click', function() {
 
-    if (audio.paused) {
+/* =========================
+   BACKGROUND MUSIC
+========================= */
 
-      // Pick a random starting point in the audio
-      if (audio.duration && isFinite(audio.duration)) {
-        audio.currentTime = Math.random() * audio.duration;
-      }
+const music = document.getElementById("bgMusic");
+const musicBtn = document.getElementById("musicBtn");
 
-      audio.play();
 
-      btn.innerHTML = "⏸️ Pause Music";
-      btn.style.backgroundColor = "#ff4757";
+musicBtn.addEventListener("click", function() {
 
-    } else {
+  if (music.paused) {
 
-      audio.pause();
-
-      btn.innerHTML = "🎵 Play Music";
-      btn.style.backgroundColor = "#222222";
-
+    // Start at a random point
+    if (music.duration && isFinite(music.duration)) {
+      music.currentTime = Math.random() * music.duration;
     }
 
-  });
+    music.play().then(() => {
+
+      musicBtn.innerHTML = "⏸️ Pause Music";
+      musicBtn.style.backgroundColor = "#ff4757";
+
+    }).catch(error => {
+
+      console.log("Music could not be played:", error);
+
+    });
+
+  } else {
+
+    music.pause();
+
+    musicBtn.innerHTML = "🎵 Play Music";
+    musicBtn.style.backgroundColor = "#222222";
+
+  }
+
+});
+
 </script>
+
 <main class="page">
   <header>
     <div>
