@@ -372,20 +372,38 @@ video.onended = () => {
   const audio = document.getElementById('bgMusic');
   const btn = document.getElementById('musicBtn');
 
-  // Add a subtle hover effect via JavaScript to keep it self-contained
-  btn.addEventListener('mouseenter', () => btn.style.transform = 'scale(1.05)');
-  btn.addEventListener('mouseleave', () => btn.style.transform = 'scale(1)');
+  // Add a subtle hover effect
+  btn.addEventListener('mouseenter', () => {
+    btn.style.transform = 'scale(1.05)';
+  });
+
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = 'scale(1)';
+  });
 
   btn.addEventListener('click', function() {
+
     if (audio.paused) {
+
+      // Pick a random starting point in the audio
+      if (audio.duration && isFinite(audio.duration)) {
+        audio.currentTime = Math.random() * audio.duration;
+      }
+
       audio.play();
+
       btn.innerHTML = "⏸️ Pause Music";
-      btn.style.backgroundColor = "#ff4757"; // Changes color when playing
+      btn.style.backgroundColor = "#ff4757";
+
     } else {
+
       audio.pause();
+
       btn.innerHTML = "🎵 Play Music";
-      btn.style.backgroundColor = "#222222"; // Resets color when paused
+      btn.style.backgroundColor = "#222222";
+
     }
+
   });
 </script>
 <main class="page">
