@@ -698,7 +698,6 @@ function showDaily() {
   updateKlok();
 }
 
-// 2. De nieuwe, aparte functie voor de klok
 function updateKlok() {
   const now = new Date();
   dateText.textContent = now.toLocaleString(undefined, {
@@ -712,7 +711,6 @@ function updateKlok() {
   });
 }
 
-// 3. Zorg dat de klok elke seconde live tikt
 setInterval(updateKlok, 1000);
 
 function showRandom() {
